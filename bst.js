@@ -86,7 +86,9 @@ testList.forEach(item => {
         myBST.addNode(newItem);
 })
 
-console.log(myBST.head)
+// console.log(myBST.head)
 // myBST.inOrder(myBST.head)
 // myBST.preOrder(myBST.head)
-myBST.postOrder(myBST.head);
+// myBST.postOrder(myBST.head);
+
+
