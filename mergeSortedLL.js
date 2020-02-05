@@ -71,3 +71,8 @@ var mergeTwoLists = function(l1, l2) {
     return rValue.next
     
 };
+
+
+//was originally mutating objects instead of creating shallow copy, resulting in infinite loop;
+//shallow copying allows us to manipulate the newHead.next object property without mutating the original current1 object
+//beware that for non primitive values, shallow copying only copies references.  The potential for mutation still exists
