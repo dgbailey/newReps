@@ -35,3 +35,9 @@ var isValidBST = function(root) {
  
     }
 };
+
+//the issue with validating a binary tree is making sure to check 
+
+//this recursion checks every left node with the previous parent.  The challenge here isn't validitaing individual subtrees
+//the challenge is checking to make sure that no value in the right tree is less than root.  And no value in left tree is greater than root
+//this is done by passing the parent node value down the tree as either the min or max
