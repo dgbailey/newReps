@@ -46,6 +46,9 @@ var lengthOfLongestSubstring = function(s) {
 
 
 //Here a different approach allows you to reuse a hashmap in order to avoid resetting your index values
+//this approach uses extra space (hash map) to lessen time complexity.  These two are always in a tradeoff theoretically
+//but this is a very good substantive example.
+
 var lengthOfLongestSubstring = function(s) {
     let map = {};
     let max = 0;
