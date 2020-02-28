@@ -1,13 +1,15 @@
 async function getD(){
     try{
         let i = await fetch('https://dog.ceo/api/breeds/image/random');
-        return await i.json()}
+        let j = await i.json();
+        console.log(j);
+    }
     catch(err)
-        {alert(err) }
+        {console.log(err) }
     }
 
-let g = await getD();
 
+ getD();
 
 //this is a somewhat concise pattern for fetching data,
 //however important to consider exactly where you would dispatch events based on success or errors
