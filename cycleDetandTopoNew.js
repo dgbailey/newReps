@@ -94,7 +94,11 @@ var findOrder = function(numCourses, prerequisites) {
 
 //Cycle detection + Topological Sort
 //difficulties
+<<<<<<< HEAD
 //creating the right type of edge list (understanding num courses and edge relationship)
+=======
+//creating the right type of edge list
+>>>>>>> b884757afe1366948d90caf4336a20dc51150dcc
 //choosing the data structure ahs huge implications for execution and algo
 //Trouble with what to return while iterating through edge list for cycle detection
 //Trouble with base cases in topo sort, needed three really, if seen return true, if seeing false, RETURN DFS result,
