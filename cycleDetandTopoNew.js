@@ -99,3 +99,9 @@ var findOrder = function(numCourses, prerequisites) {
 //Trouble with what to return while iterating through edge list for cycle detection
 //Trouble with base cases in topo sort, needed three really, if seen return true, if seeing false, RETURN DFS result,
 //and return true when node has no children
+
+//time complexity??? topo??
+//O(v + e)
+
+//time complexity cycle detection?
+//)(v + e)
