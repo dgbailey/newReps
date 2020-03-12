@@ -62,3 +62,4 @@ var slidingPuzzle = function(board) {
 //board permutations, what they look like at each snapshot,
 //making sure to keep a visited set to save time
 //solution is dependent on there being a finite number of possibilities that an be reached within a time limit
+//thinking in terms of a tree helps think about this time complexity which seems to be 3^n or 4^n
