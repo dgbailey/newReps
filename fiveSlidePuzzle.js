@@ -58,8 +58,9 @@ var slidingPuzzle = function(board) {
 //this solution is slower than most accepted. I have a feeling it is the number of queue shifts (and the length of the queue) being shifted
 //difficult part of this was
 //knowing to serialie the board
+//knowing 2d to 3d swaps ahead of time
 //determining that's what we were going to BFS
 //board permutations, what they look like at each snapshot,
 //making sure to keep a visited set to save time
 //solution is dependent on there being a finite number of possibilities that an be reached within a time limit
-//thinking in terms of a tree helps think about this time complexity which seems to be 3^n or 4^n
+//thinking in terms of a tree helps think about this time complexity which seems to be 3^n or 4^n branching factor raised to depth of solution

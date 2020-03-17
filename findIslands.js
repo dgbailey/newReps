@@ -52,6 +52,7 @@ var numIslands = function(grid) {
 		}
 	}
 };
+//aka finding connected components
 //this solution is off by 3 test cases
 //difficult part was that it uses string data
 //difficult part was remembering to assess valid moves first
