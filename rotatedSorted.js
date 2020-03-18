@@ -56,7 +56,7 @@ var search = function(nums, target) {
 //[[4,5,6,7,0,2,3]] search 0
 
 //YOu can say that if your mid is GT target and end LT target you know that in a flipped rotated array you are good
-//however an edge case is a non flipped array
+//however an edge case is a non flipped array (which is kind of frustrating considering the problem statement)
 //[[1,3,5]]
 //your rule breaks down here
 //if your mid is greater than your end
