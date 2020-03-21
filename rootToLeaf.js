@@ -18,7 +18,7 @@ function hasPathWithGivenSum(t, s) {
 	//     }
 	//     return false
 	// }
-	//this commented section could have been a good clue as to what we consider a leaf
+	//this commented section could have been a good clue as to what we consider a leaf.
 	//
 
 	let flag = false;
