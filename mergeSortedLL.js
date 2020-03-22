@@ -93,3 +93,61 @@ function mergeTwoLinkedLists(l1, l2) {
 }
 
 ///there is some weirdness going on here that I don't understand between two different solutions
+//in our first example you are mutating the l1 or l2 objet you set to newHead.next
+
+//SOLVED
+//TURNS OUT THE REASSIGNMENT OF L1 ON THE CASE OF LINE 135 BELOW WAS CREATING A SUBTLE CYCLE THAT THROWS EVERYTHING OFF
+
+//breakthrough
+// Singly-linked lists are already defined with this interface:
+// function ListNode(x) {
+//   this.value = x;
+//   this.next = null;
+// }
+//
+function mergeTwoLinkedLists(l1, l2) {
+	//loop through both, first node gets set as new head, increment list that node was taken from
+
+	let newHead = new ListNode(null);
+	let r = newHead;
+
+	while (l1 && l2) {
+		if (l1.value === l2.value) {
+			newHead.next = l1;
+			newHead = newHead.next;
+			l1 = l1.next;
+			newHead.next = l2;
+			newHead = newHead.next;
+
+			l2 = l2.next;
+
+			//  newHead.next = l1;
+			// newHead = newHead.next; L1 OBJECT
+
+			// newHead.next = l2; L1 => L2
+			// newHead = newHead.next; L2
+
+			//  l1 = l1.next; POINTS TO L2 INCORRECTOL HERE
+			// l2 = l2.next; POINTS TO APPROPRIATE OBJECT
+			//this WONT WORK
+		} else if (l1.value < l2.value) {
+			newHead.next = l1;
+			newHead = newHead.next;
+
+			l1 = l1.next;
+		} else if (l1.value > l2.value) {
+			newHead.next = l2;
+			newHead = newHead.next;
+			l2 = l2.next;
+		}
+	}
+
+	if (l1 !== null) {
+		newHead.next = l1;
+	}
+	if (l2 !== null) {
+		newHead.next = l2;
+	}
+
+	return r.next;
+}
