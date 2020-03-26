@@ -66,3 +66,47 @@ var isSubtree = function(s, t) {
 	};
 	return dfs(s);
 };
+
+//final output
+//strange edge case of comparison value being null
+//
+// Binary trees are already defined with this interface:
+// function Tree(x) {
+//   this.value = x;
+//   this.left = null;
+//   this.right = null;
+// }
+function isSubtree(t1, t2) {
+	//logic is separated here
+	//are the subtrees the same
+
+	return match(t1, t2);
+	function checkSubtree(node, comparison) {
+		if (!node && !comparison) {
+			return true;
+		}
+		if (!node || !comparison || node.value !== comparison.value) {
+			return false;
+		}
+		return checkSubtree(node.left, comparison.left) && checkSubtree(node.right, comparison.right);
+	}
+	function match(node, comparison) {
+		if (!comparison) {
+			return true;
+		}
+		if (!node && !comparison) {
+			return true;
+		}
+		if (!node || !comparison) {
+			return false;
+		}
+
+		//search for match in value and tree
+		if (node.value === comparison.value && checkSubtree(node, comparison)) {
+			return true;
+		}
+		return match(node.left, comparison) || match(node.right, comparison);
+	}
+
+	//do we have a match, ok , check subtrees
+}
