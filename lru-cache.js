@@ -27,13 +27,19 @@ LinkedList.prototype.addValue = function(value) {
 function lruCache(size) {
 	this.dataArr = Array.from(Array(size)).map((v) => new LinkedList(null));
 	this.size = size;
+	this.load = 0;
+	this.loadFactor = this.load / this.size;
 }
 
 lruCache.prototype = {
-	...lruCache.prototype,
+	constructor: lruCache.prototype.constructor,
 	_hashValue(value) {
 		let hash = value.length % this.size;
 		return hash;
+	},
+	_computeLoadFactor() {
+		this.load++;
+		this.loadFactor = this.load / this.size;
 	},
 	insertValue(nonHashedValue) {
 		let hashedValue = this._hashValue(nonHashedValue);
@@ -44,7 +50,7 @@ lruCache.prototype = {
 		} else {
 			result.next = new LinkedList(nonHashedValue);
 		}
-		this.size++;
+		this._computeLoadFactor();
 	},
 	_hasCollision(hashedValue) {
 		//returns [false,null] on no collision or [true,lastNonNullLink]
@@ -84,13 +90,97 @@ lruCache.prototype = {
 	}
 };
 
-let myCache = new lruCache(10);
+// let myCache = new lruCache(10);
 
-myCache.insertValue('monday');
-myCache.insertValue('tuesday');
-myCache.insertValue('sunday');
-myCache.insertValue('friday');
-let g = myCache.getValue('friday');
-console.log(g);
-let f = myCache.getValue('sunday');
-console.log(f);
+// myCache.insertValue('monday');
+// myCache.insertValue('tuesday');
+// myCache.insertValue('sunday');
+// myCache.insertValue('friday');
+// let g = myCache.getValue('friday');
+// console.log(g);
+// let f = myCache.getValue('sunday');
+// console.log(myCache.__proto__);
+
+//things we missed in this implementation
+//1. cache size is strictly enforced
+//2. Assuming we have a low collision rate as a constraint
+//3. Eviction policies
+//4. A single linked List and a single hashmap
+//the above implementation really supports collisions by having multiple linked lists that can reorder themselves
+//5. A DLL would be much more convenient than a SLL
+
+function dLL(node) {
+	this.head = node;
+	this.tail = node;
+}
+
+function dLLNode(value) {
+	this.value = value;
+	this.next = null;
+	this.prev = null;
+}
+
+function lruV2(size) {
+	this.dataArr = Array.from(Array(size)).map((v) => null);
+	this.list = null;
+	this.size = size; //specifically for hashing
+	this.capacity = 0; //fixed length of linked list
+}
+
+lruV2.prototype = {
+	constructor: lruV2.prototype.constructor,
+	_hashValue(value) {
+		return value.length % this.size;
+	},
+	get(value) {
+		let hashedValue = this._hashValue(value);
+		console.log(hashedValue);
+		let cacheHit = this.dataArr[hashedValue];
+
+		if (!cacheHit) {
+			let newNode = new dLLNode(value);
+			if (this.capacity === 0) {
+				this.list = new dLL(newNode);
+			} else if (this.capacity !== this.size) {
+				this.list.tail.next = newNode;
+				newNode.prev = this.list.tail;
+				this.list.tail = this.list.tail.next;
+			} else {
+				//eviction policy
+				this.list.tail.prev.next = newNode;
+				this.list.tail = newNode;
+			}
+			this.capacity++;
+			this.dataArr[hashedValue] = newNode;
+			return newNode;
+		} else if (cacheHit) {
+			//reorder cacheHits neighbors
+			let myPreviousNeighbor = cacheHit.prev;
+			let myNextNeighbor = cacheHit.next;
+
+			myPreviousNeighbor.next = myNextNeighbor;
+			if (!myNextNeighbor) {
+				//if replacing tail
+				this.list.tail = myPreviousNeighbor;
+			}
+			//move cachehit to front of list
+			cacheHit.next = this.list.head;
+			cacheHit.prev = null;
+			this.list.head = cacheHit;
+			return cacheHit;
+		}
+	}
+};
+
+//insert
+//eviction seems to be passing tests
+//cachehits are passing tests
+//lruv2 is not resilient to collisions
+let myCache = new lruV2(10);
+console.log(myCache.get('s'));
+console.log(myCache.get('nnnnuunnuu'));
+console.log(myCache.get('asdbeth'));
+console.log(myCache.get('zzzzzzzz'));
+console.log(myCache.get('ttttttttt'));
+console.log(myCache.get('ididandnsntnesnt'));
+console.log(myCache.list);
