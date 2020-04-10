@@ -1,8 +1,10 @@
-function redBlackNode(root = false, value) {
+function redBlackNode(root = false, value, parent) {
 	if (root) {
 		this.color = 'b';
+		this.parent = null;
 	} else {
 		this.color = 'r';
+		this.parent = parent;
 	}
 	this.value = value;
 	this.left = null;
@@ -12,18 +14,62 @@ function redBlackNode(root = false, value) {
 redBlackNode.prototype = {
 	constructor: redBlackNode.prototype.constructor,
 	insert(value) {
-		console.log('inserting', value, this.value);
 		if (value > this.value) {
 			if (!this.right) {
-				this.right = new redBlackNode(false, value);
+				this.right = new redBlackNode(false, value, this);
 			} else {
-				this.insert(value, this.right);
+				this.right.insert(value);
 			}
 		} else {
 			if (!this.left) {
-				this.left = new redBlackNode(false, value);
+				this.left = new redBlackNode(false, value, this);
 			} else {
-				this.insert(value, this.left);
+				this.left.insert(value);
+			}
+		}
+	},
+	_postInsert(node) {
+		//parent value black do nothing
+		//remember inserting a child always means that child is a leaf -- no children
+		if (node.parent.color !== 'b') {
+			let left = node.parent.left;
+			let right = node.parent.right;
+			let sibling = left === node ? right : left;
+
+			if (!sibling || sibling.color === 'b') {
+				//do we have a sibling or sib null
+				let g = node.parent.parent;
+				let p = node.parent;
+				let c = node;
+				let childGTParent = c.value > p.value;
+				let parentGTGrand = p.value > g.value;
+				//order nodes ascending
+				if (!parentGTGrand) {
+					if (!childGTParent) {
+						//rotation case 1
+						//parents?
+						let temp = p.right;
+						p.right = g;
+						g.left = temp;
+					} else if (childGTParent) {
+						//rotation case 2
+						//parents?
+						c.right = g;
+						c.left = p;
+						g.left = null;
+					}
+				} else if (parentGTGrand) {
+					if (childGTParent) {
+						let temp = p.left;
+						p.left = g;
+						g.right = temp;
+						g.parent.right = p;
+						p.parent = g.parent;
+						g.parent = p;
+					}
+				}
+			} else {
+				//recoloring
 			}
 		}
 	}
@@ -31,6 +77,8 @@ redBlackNode.prototype = {
 
 let myTree = new redBlackNode(true, 5);
 myTree.insert(6);
+myTree.insert(2);
+myTree.insert(8);
 console.log(myTree);
 // for (let prop in myTree) {
 // 	console.log(prop, myTree[prop]);
