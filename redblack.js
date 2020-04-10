@@ -51,12 +51,23 @@ redBlackNode.prototype = {
 						let temp = p.right;
 						p.right = g;
 						g.left = temp;
+						p.parent = g.parent;
+						g.parent = p;
+						p.color = 'b';
+						c.color = 'r';
+						g.color = 'r';
 					} else if (childGTParent) {
 						//rotation case 2
 						//parents?
 						c.right = g;
 						c.left = p;
 						g.left = null;
+						c.parent = g.parent;
+						g.parent = c;
+						p.parent = c;
+						c.color = 'b';
+						p.color = 'r';
+						g.color = 'r';
 					}
 				} else if (parentGTGrand) {
 					if (childGTParent) {
@@ -66,6 +77,19 @@ redBlackNode.prototype = {
 						g.parent.right = p;
 						p.parent = g.parent;
 						g.parent = p;
+						p.color = 'b';
+						g.color = 'r';
+						c.color = 'r';
+					} else {
+						c.right = p;
+						c.left = g;
+						c.parent = g.parent;
+						g.parent.right = c;
+						g.parent = c;
+						p.parent = c;
+						c.color = 'b';
+						g.color = 'r';
+						p.color = 'r';
 					}
 				}
 			} else {
