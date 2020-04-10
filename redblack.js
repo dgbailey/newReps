@@ -17,21 +17,23 @@ redBlackNode.prototype = {
 		if (value > this.value) {
 			if (!this.right) {
 				this.right = new redBlackNode(false, value, this);
+				return this._postInsert(this.right.parent);
 			} else {
-				this.right.insert(value);
+				return this.right.insert(value);
 			}
 		} else {
 			if (!this.left) {
 				this.left = new redBlackNode(false, value, this);
+				return this._postInsert(this.left.parent);
 			} else {
-				this.left.insert(value);
+				return this.left.insert(value);
 			}
 		}
 	},
 	_postInsert(node) {
 		//parent value black do nothing
 		//remember inserting a child always means that child is a leaf -- no children
-		if (node.parent.color !== 'b') {
+		if (node.color !== 'b') {
 			let left = node.parent.left;
 			let right = node.parent.right;
 			let sibling = left === node ? right : left;
@@ -51,49 +53,72 @@ redBlackNode.prototype = {
 						let temp = p.right;
 						p.right = g;
 						g.left = temp;
-						p.parent = g.parent;
+						if (g.parent) {
+							p.parent = g.parent;
+						}
 						g.parent = p;
 						p.color = 'b';
 						c.color = 'r';
 						g.color = 'r';
+						return p;
 					} else if (childGTParent) {
 						//rotation case 2
 						//parents?
 						c.right = g;
 						c.left = p;
 						g.left = null;
-						c.parent = g.parent;
+						if (g.parent) {
+							c.parent = g.parent;
+						}
 						g.parent = c;
 						p.parent = c;
 						c.color = 'b';
 						p.color = 'r';
 						g.color = 'r';
+						return c;
 					}
 				} else if (parentGTGrand) {
 					if (childGTParent) {
+						console.log('!!!', node.value);
 						let temp = p.left;
 						p.left = g;
 						g.right = temp;
-						g.parent.right = p;
-						p.parent = g.parent;
-						g.parent = p;
+						if (g.parent) {
+							g.parent.right = p;
+							p.parent = g.parent;
+						} else {
+							p.parent = null;
+						}
+
 						p.color = 'b';
 						g.color = 'r';
 						c.color = 'r';
+						return p;
 					} else {
 						c.right = p;
 						c.left = g;
-						c.parent = g.parent;
+						if (g.parent) {
+							c.parent = g.parent;
+						}
 						g.parent.right = c;
 						g.parent = c;
 						p.parent = c;
 						c.color = 'b';
 						g.color = 'r';
 						p.color = 'r';
+						return c;
 					}
 				}
-			} else {
-				//recoloring
+			} else if (sibling.color === 'r') {
+				node.parent.color = 'r';
+				node.color = 'b';
+				sibling.color = 'b';
+				if (node.parent.parent) {
+					if (node.parent.parent.color === 'r') {
+						//handle double red
+						this._postInsert(node.parent);
+					}
+				}
 			}
 		}
 	}
@@ -102,8 +127,10 @@ redBlackNode.prototype = {
 let myTree = new redBlackNode(true, 5);
 myTree.insert(6);
 myTree.insert(2);
-myTree.insert(8);
+console.log(myTree.insert(8));
 console.log(myTree);
-// for (let prop in myTree) {
-// 	console.log(prop, myTree[prop]);
-// }
+
+//this appears to be working
+//we just have trouble keeping track of the root. The root must always be black.
+
+//the issue was not looking at siblings correctly for Parents.  Was looking at sibs for insertion instead .
