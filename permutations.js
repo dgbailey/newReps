@@ -1,9 +1,11 @@
-function getPerms() {
-	allPermutations('', 'dog');
-
+function getPerms(callback) {
+	let p = [];
+	allPermutations('', 'masterblaster');
+	console.log(p);
+	callback();
 	function allPermutations(prefix = '', suffix) {
 		if (suffix.length === 0) {
-			console.log(prefix);
+			p.push(prefix);
 		}
 
 		for (let i = 0; i < suffix.length; i++) {
@@ -14,7 +16,8 @@ function getPerms() {
 	}
 }
 
-getPerms();
+getPerms(() => console.log('finished'));
+console.log('hello');
 //splitting into prefex and suffix was the tough part here
 //also following the recursion on each level was tough
 //following the return of recursive calls was initually printing undefined as a base case returned to a previous stack frame
