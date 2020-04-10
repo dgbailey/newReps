@@ -40,9 +40,9 @@ redBlackNode.prototype = {
 
 			if (!sibling || sibling.color === 'b') {
 				//do we have a sibling or sib null
-				let g = node.parent.parent;
-				let p = node.parent;
-				let c = node;
+				let g = node.parent;
+				let p = node;
+				let c = node.left ? node.left : node.right;
 				let childGTParent = c.value > p.value;
 				let parentGTGrand = p.value > g.value;
 				//order nodes ascending
@@ -56,6 +56,7 @@ redBlackNode.prototype = {
 						if (g.parent) {
 							p.parent = g.parent;
 						}
+
 						g.parent = p;
 						p.color = 'b';
 						c.color = 'r';
@@ -70,6 +71,7 @@ redBlackNode.prototype = {
 						if (g.parent) {
 							c.parent = g.parent;
 						}
+
 						g.parent = c;
 						p.parent = c;
 						c.color = 'b';
@@ -89,7 +91,6 @@ redBlackNode.prototype = {
 						} else {
 							p.parent = null;
 						}
-
 						p.color = 'b';
 						g.color = 'r';
 						c.color = 'r';
@@ -110,15 +111,22 @@ redBlackNode.prototype = {
 					}
 				}
 			} else if (sibling.color === 'r') {
-				node.parent.color = 'r';
+				//if node is root, we need to keep black
+				if (node.parent.parent === null) {
+					node.parent.color = 'b';
+				} else {
+					node.parent.color = 'r';
+				}
 				node.color = 'b';
 				sibling.color = 'b';
+
 				if (node.parent.parent) {
 					if (node.parent.parent.color === 'r') {
-						//handle double red
+						//have we created a double red between grandparent and greatgrandparent via recolo
 						this._postInsert(node.parent);
 					}
 				}
+				return node;
 			}
 		}
 	}
@@ -127,10 +135,12 @@ redBlackNode.prototype = {
 let myTree = new redBlackNode(true, 5);
 myTree.insert(6);
 myTree.insert(2);
-console.log(myTree.insert(8));
-console.log(myTree);
+myTree.insert(8);
+console.log(myTree.insert(10));
 
 //this appears to be working
 //we just have trouble keeping track of the root. The root must always be black.
 
 //the issue was not looking at siblings correctly for Parents.  Was looking at sibs for insertion instead .
+//http://pages.cs.wisc.edu/~skrentny/cs367-common/readings/Red-Black-Trees/
+//https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
