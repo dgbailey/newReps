@@ -81,13 +81,13 @@ redBlackNode.prototype = {
 					}
 				} else if (parentGTGrand) {
 					if (childGTParent) {
-						console.log('!!!', node.value);
 						let temp = p.left;
 						p.left = g;
 						g.right = temp;
 						if (g.parent) {
 							g.parent.right = p;
 							p.parent = g.parent;
+							g.parent = p;
 						} else {
 							p.parent = null;
 						}
@@ -103,6 +103,8 @@ redBlackNode.prototype = {
 						}
 						g.parent.right = c;
 						g.parent = c;
+						g.right = null;
+						p.left = null;
 						p.parent = c;
 						c.color = 'b';
 						g.color = 'r';
@@ -120,13 +122,13 @@ redBlackNode.prototype = {
 				node.color = 'b';
 				sibling.color = 'b';
 
-				if (node.parent.parent) {
-					if (node.parent.parent.color === 'r') {
+				if (node.parent) {
+					if (node.parent.color === 'r' && node.parent.parent.color === 'r') {
 						//have we created a double red between grandparent and greatgrandparent via recolo
 						this._postInsert(node.parent);
 					}
 				}
-				return node;
+				return;
 			}
 		}
 	}
@@ -136,7 +138,12 @@ let myTree = new redBlackNode(true, 5);
 myTree.insert(6);
 myTree.insert(2);
 myTree.insert(8);
-console.log(myTree.insert(10));
+
+myTree.insert(7);
+myTree.insert(10);
+console.log(myTree.insert(1));
+console.log(myTree.insert(3));
+console.log(myTree.insert(4));
 
 //this appears to be working
 //we just have trouble keeping track of the root. The root must always be black.
