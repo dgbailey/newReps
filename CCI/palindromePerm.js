@@ -49,3 +49,6 @@ function isPermPalendrome(string) {
 console.log(isPermPalendrome('tact coa'));
 //generate all permutations
 //check all for palindromes
+//AN alternative would have been to realize that palindromes of even length would have all even counts of characters
+//palendromes of odd length would have all even and one odd count of characters.
+//this would have provided us with a linear time hash map type algorithm.
