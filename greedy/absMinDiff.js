@@ -18,6 +18,9 @@ function minimumAbsoluteDifference(arr) {
 }
 
 //is this really considered greedy?
+//Greed here is more of a technique choice
+//we are selecting greedily here by sorting by ascenting
+
 //if we look at consecutive pairs in a single pass we can see we miss out on some potential combinations (this is ultra greedy)
 //if we sort the list first we know that the pairs we miss out on will always have a greater absolute difference than the pair we are
 //currently evaluating

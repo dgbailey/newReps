@@ -1,1 +1,2 @@
-let board = [ [ null, null, null ], [ null, null, null ], [ null, null, null ] ];
+//what are we looking for?
+//three consecutive 1s or 0s
