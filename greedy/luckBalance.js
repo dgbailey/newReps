@@ -40,3 +40,4 @@ function luckBalance(k, contests) {
 //choosing what is optimal at each step
 //Note: Shortsightedness: Always go for seemingly next best thing, optimizing the present
 //without regard for the future, and never change past choices.
+//Greed ignores past information, think about now A* balances this
