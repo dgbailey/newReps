@@ -2,6 +2,27 @@
 //find blank tile
 //
 
+let goalState = [];
+
+function aStar(matrix, goalState = null) {
+	//dfs vs bfs
+	//only suitable for solvable puzzles
+	//visited = {}?
+	let moveCount = 0;
+	traverse(matrix);
+	return moveCount;
+
+	function traverse(boardState) {
+		if (boardState === 'goal') {
+			return true;
+		} else {
+			moveCount++;
+			//TODO:not sure what to do if we run into something we've seen before. Would hault entire process
+			let nextOptimalPath = _nextBoardState(boardState, goalState);
+			return traverse(nextOptimalPath);
+		}
+	}
+}
 function _determineGoalState(matrix) {
 	for (let row of matrix) {
 		row.sort();
@@ -27,7 +48,6 @@ function _filterBoundaries(swapsArray, ...args) {
 		}
 	});
 }
-
 function _nextBoardState(currentState, goalState) {
 	//returns next optimal matrix
 	let nullCoords = _findBlankTile(currentState);
@@ -41,6 +61,7 @@ function _nextBoardState(currentState, goalState) {
 function _calcMinHeuristic(newBoardStates, goalState) {
 	//assumption here is that every g(n) is constant (1)
 	//optimum then depends on underestimate of h(n)
+	//checking for goal match here as well
 
 	let heuristicScrores = [];
 	let lookupTable = _mDistanceLookup(goalState);
@@ -48,7 +69,10 @@ function _calcMinHeuristic(newBoardStates, goalState) {
 		let h = _hHeuristic(newBoardState, lookupTable, _manhattan);
 		let g = _gHeuristic();
 		heuristicScrores.push(h + g);
-		return newBoardStates[maxIndex(heuristicScrores)];
+		let [ index, min ] = maxIndex(heuristicScrores);
+		if (min === 1) {
+			return 'goal';
+		} else return newBoardStates[index];
 	}
 
 	function maxIndex(arr) {
@@ -60,7 +84,7 @@ function _calcMinHeuristic(newBoardStates, goalState) {
 				index = i;
 			}
 		}
-		return index;
+		return [ index, min ];
 	}
 }
 
