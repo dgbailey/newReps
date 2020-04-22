@@ -10,7 +10,7 @@ function redBlackNode(root = false, value, parent) {
 	this.left = null;
 	this.right = null;
 }
-
+//TODO:used in database indices, linux kernel epoll, java data types, hashmap collisions
 redBlackNode.prototype = {
 	constructor: redBlackNode.prototype.constructor,
 	insert(value) {
