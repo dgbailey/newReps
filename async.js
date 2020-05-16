@@ -7,7 +7,7 @@ async function getD() {
 		console.log(err);
 	}
 }
-
+//await result of d
 getD();
 //testing
 //this is a somewhat concise pattern for fetching data,
