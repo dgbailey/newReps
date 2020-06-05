@@ -26,7 +26,8 @@ var lowestCommonAncestor = function(root, p, q) {
   
   
   
-  
+  //you are looking for the root that sits between the given nodes
+  //this could include one of the nodes given. If fits the conditionals above.
   
    
       
