@@ -17,3 +17,7 @@ var maxPathSum = function(root) {
    recur(root);
     return max
 };
+//snapshots the max path sum of each subtree
+//compares this to max
+//ignores negatives as they will only reduce the sum
+//returns max path left right to next subtree up
