@@ -38,3 +38,6 @@ var cloneGraph = function(node) {
     }
     
 };
+
+//O(E + V) represents a theoretical time. Edges could dominate a graph (ie dense) or vertices (sparse); The work that needs to be done is determined by whichever term dominates. 
+//
