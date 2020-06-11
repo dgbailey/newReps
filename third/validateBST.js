@@ -28,3 +28,4 @@ var isValidBST = function(root) {
 };
 
 //lt or equal two condition forgot about there could be dupes in bst?
+//challenging part is keeping track of whether values down in the tree violate BST by conflicting with root value
