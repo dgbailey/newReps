@@ -62,4 +62,5 @@ var characterReplacement = function(s, k) {
   
 };
 
-  
+  //sliding window being the biggest revelation here
+  //two pointer solutions arent necessarily sliding window solutions
