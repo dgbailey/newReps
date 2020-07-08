@@ -13,3 +13,4 @@ getD();
 //this is a somewhat concise pattern for fetching data,
 //however important to consider exactly where you would dispatch events based on success or errors
 //starting this next week
+//noted
